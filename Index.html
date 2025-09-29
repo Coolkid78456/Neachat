@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatnea - Connect with People Around You</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2hhdG5lYSIsInNob3J0X25hbWUiOiJDaGF0bmVhIiwiZGVzY3JpcHRpb24iOiJDb25uZWN0IHdpdGggcGVvcGxlIGFyb3VuZCB5b3UiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lqNDhjbVZqZENCNFBTSTJNQ0lnZVQwaU5qQWlJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lpQm1hV3hzUFNJak5qWTNaV1ZoSWo0OEwzTjJaejQ9Iiwic2l6ZXMiOiIxMjB4MTIwIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2hhdG5lYSIsInNob3J0X25hbWUiOiJDaGF0bmVhIiwiZGVzY3JpcHRpb24iOiJDb25uZWN0IHdpdGggcGVvcGxlIGFyb3VuZCB5b3UiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lqNDhjbVZqZENCNFBTSTJNQ0lnZVQwaU5qQWlJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lpQm1hV3hzUFNJak5qWjNaV1ZoSWo0OEwzTjJaejQ9Iiwic2l6ZXMiOiIxMjB4MTIwIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
     <meta name="theme-color" content="#667eea">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -722,6 +722,350 @@
             display: block;
         }
 
+        .group-controls {
+            padding: 15px;
+            border-bottom: 1px solid #e1e5e9;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .group-btn {
+            padding: 8px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .group-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .group-btn.voice {
+            background: #4CAF50;
+        }
+
+        .group-btn.video {
+            background: #2196F3;
+        }
+
+        .group-btn.voice:hover {
+            background: #45a049;
+        }
+
+        .group-btn.video:hover {
+            background: #1976D2;
+        }
+
+        .group-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .group-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .group-modal h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+
+        .invite-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .invite-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .invite-user:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+
+        .invite-user.selected {
+            background: #e3f2fd;
+            border-color: #2196F3;
+        }
+
+        .invite-user input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .group-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .group-action-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .group-action-btn.cancel {
+            background: #ccc;
+            color: #333;
+        }
+
+        .group-action-btn.create {
+            background: #667eea;
+            color: white;
+        }
+
+        .group-action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .group-chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e1e5e9;
+            background: #f8f9fa;
+        }
+
+        .group-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .group-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .group-details h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .group-details p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .group-call-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .group-call-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .group-call-btn.voice {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .group-call-btn.video {
+            background: #2196F3;
+            color: white;
+        }
+
+        .notification-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 3000;
+            max-width: 350px;
+            display: none;
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .notification-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .notification-info h4 {
+            margin: 0;
+            color: #333;
+        }
+
+        .notification-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .notification-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .notification-btn.accept {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .notification-btn.decline {
+            background: #f44336;
+            color: white;
+        }
+
+        .notification-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .group-video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 20px;
+            height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .participant-video {
+            position: relative;
+            background: #333;
+            border-radius: 10px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .participant-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .participant-name {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .participant-muted {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .unread-badge {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         .messages {
             flex: 1;
             padding: 20px;
@@ -1017,6 +1361,11 @@
                 width: 100%;
                 max-width: 300px;
             }
+
+            .group-video-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
         }
     </style>
 </head>
@@ -1058,6 +1407,33 @@
         </div>
     </div>
 
+    <!-- Group Modal -->
+    <div class="group-modal" id="groupModal">
+        <div class="group-modal-content">
+            <h3 id="groupModalTitle">Create Group Chat</h3>
+            <div class="invite-list" id="inviteList"></div>
+            <div class="group-actions">
+                <button class="group-action-btn cancel" onclick="closeGroupModal()">Cancel</button>
+                <button class="group-action-btn create" id="createGroupBtn" onclick="createGroup()">Create Group</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Popup -->
+    <div class="notification-popup" id="notificationPopup">
+        <div class="notification-header">
+            <div class="notification-avatar" id="notificationAvatar">U</div>
+            <div class="notification-info">
+                <h4 id="notificationTitle">Group Invitation</h4>
+                <p id="notificationMessage">You've been invited to join a group</p>
+            </div>
+        </div>
+        <div class="notification-actions">
+            <button class="notification-btn decline" onclick="declineInvitation()">Decline</button>
+            <button class="notification-btn accept" onclick="acceptInvitation()">Accept</button>
+        </div>
+    </div>
+
     <!-- Call Interface -->
     <div class="call-interface" id="callInterface">
         <div class="call-header">
@@ -1065,6 +1441,7 @@
             <div class="call-duration" id="callDuration">00:00</div>
         </div>
         <div class="video-container" id="videoContainer">
+            <div class="group-video-grid" id="groupVideoGrid" style="display: none;"></div>
             <video id="remoteVideo" class="remote-video" autoplay playsinline></video>
             <video id="localVideo" class="local-video" autoplay muted playsinline></video>
             <div class="connection-status" id="connectionStatus">Connecting to call...</div>
@@ -1277,6 +1654,12 @@
                 </div>
             </div>
 
+            <div class="group-controls">
+                <button class="group-btn" onclick="createGroupChat()">👥 Create Group Chat</button>
+                <button class="group-btn voice" onclick="startGroupCall('voice')">📞 Group Voice Call</button>
+                <button class="group-btn video" onclick="startGroupCall('video')">📹 Group Video Call</button>
+            </div>
+
             <div class="messages" id="messages">
                 <div class="empty-state">
                     <h3>💬 Start Chatting</h3>
@@ -1309,6 +1692,12 @@
         let soundEnabled = true;
         let localMap = null;
         let deferredPrompt = null;
+        let groupChats = {};
+        let activeGroupChat = null;
+        let groupCalls = {};
+        let currentGroupCall = null;
+        let groupCallParticipants = {};
+        let pendingInvitation = null;
 
         // PWA Installation
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -1582,6 +1971,7 @@ We're excited to have you join our community. Here's what you can do with Chatne
 📞 Make voice calls with people around you  
 📹 Video chat with your neighbors
 🗺️ See who's active in your neighborhood
+👥 Create group chats and calls
 
 Your journey of local connections starts now! Share your location to find people nearby and start chatting.
 
@@ -1671,7 +2061,7 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 lastSeen: new Date().toISOString(),
                 isOnline: true,
                 peerId: currentUser.peerId,
-                inCall: currentCall !== null
+                inCall: currentCall !== null || currentGroupCall !== null
             };
             
             if (userIndex >= 0) {
@@ -1745,6 +2135,10 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
 
         function generateUserId() {
             return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function generateGroupId() {
+            return 'group_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
         }
 
         function switchAuthTab(tab) {
@@ -1869,6 +2263,7 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             
             initializePeer();
             initializeLocalMap();
+            requestNotificationPermission();
             sounds.connect();
         }
 
@@ -2004,9 +2399,23 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 handleIncomingCall(call);
             });
 
+            peer.on('connection', function(conn) {
+                handleIncomingConnection(conn);
+            });
+
             peer.on('error', function(err) {
                 console.error('PeerJS error:', err);
                 alert('Connection error. Please try again.');
+            });
+        }
+
+        function handleIncomingConnection(conn) {
+            conn.on('data', function(data) {
+                if (data.type === 'group_invitation') {
+                    showGroupInvitation(data);
+                } else if (data.type === 'group_call_invitation') {
+                    showGroupCallInvitation(data);
+                }
             });
         }
 
@@ -2016,7 +2425,13 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             sounds.call();
             
             try {
-                localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                localStream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
                 hideLoadingScreen();
                 showCallInterface(false);
                 document.getElementById('callStatus').textContent = 'Ready for voice calls';
@@ -2038,7 +2453,18 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             sounds.call();
             
             try {
-                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                localStream = await navigator.mediaDevices.getUserMedia({ 
+                    video: {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    }, 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
                 hideLoadingScreen();
                 showCallInterface(true);
                 document.getElementById('localVideo').srcObject = localStream;
@@ -2118,7 +2544,11 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 if (!localStream) {
                     navigator.mediaDevices.getUserMedia({ 
                         video: currentCallType === 'video', 
-                        audio: true 
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true
+                        }
                     }).then(stream => {
                         localStream = stream;
                         answerCall(call);
@@ -2213,6 +2643,11 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 currentCall = null;
             }
             
+            if (currentGroupCall) {
+                endGroupCall();
+                return;
+            }
+            
             if (localStream) {
                 localStream.getTracks().forEach(track => track.stop());
                 localStream = null;
@@ -2227,6 +2662,7 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             document.getElementById('localVideo').srcObject = null;
             document.getElementById('remoteVideo').srcObject = null;
             document.getElementById('connectionStatus').style.display = 'block';
+            document.getElementById('groupVideoGrid').style.display = 'none';
             
             // Reset button states
             document.getElementById('muteBtn').classList.remove('active');
@@ -2237,6 +2673,510 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             isCameraOff = false;
             
             sounds.disconnect();
+        }
+
+        // Group Chat Functions
+        function createGroupChat() {
+            if (nearbyUsers.length === 0) {
+                alert('No users nearby to invite to a group chat!');
+                return;
+            }
+            
+            document.getElementById('groupModalTitle').textContent = 'Create Group Chat';
+            document.getElementById('createGroupBtn').textContent = 'Create Group';
+            document.getElementById('createGroupBtn').onclick = createGroup;
+            
+            showInviteModal('chat');
+        }
+
+        function startGroupCall(type) {
+            if (nearbyUsers.length === 0) {
+                alert('No users nearby to invite to a group call!');
+                return;
+            }
+            
+            currentCallType = type;
+            document.getElementById('groupModalTitle').textContent = `Start Group ${type === 'video' ? 'Video' : 'Voice'} Call`;
+            document.getElementById('createGroupBtn').textContent = 'Start Call';
+            document.getElementById('createGroupBtn').onclick = () => createGroup(type);
+            
+            showInviteModal(type);
+        }
+
+        function showInviteModal(type) {
+            const inviteList = document.getElementById('inviteList');
+            inviteList.innerHTML = '';
+            
+            nearbyUsers.forEach(user => {
+                const inviteUser = document.createElement('div');
+                inviteUser.className = 'invite-user';
+                inviteUser.innerHTML = `
+                    <input type="checkbox" id="invite_${user.id}" value="${user.id}">
+                    <div class="user-avatar">${user.avatar}</div>
+                    <div>
+                        <div style="font-weight: 600;">${user.name}</div>
+                        <div style="font-size: 0.8rem; color: #666;">🟢 Online</div>
+                    </div>
+                `;
+                
+                inviteUser.onclick = (e) => {
+                    if (e.target.type !== 'checkbox') {
+                        const checkbox = inviteUser.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+                    inviteUser.classList.toggle('selected', inviteUser.querySelector('input[type="checkbox"]').checked);
+                };
+                
+                inviteList.appendChild(inviteUser);
+            });
+            
+            document.getElementById('groupModal').style.display = 'flex';
+            sounds.notification();
+        }
+
+        function closeGroupModal() {
+            document.getElementById('groupModal').style.display = 'none';
+        }
+
+        async function createGroup(callType = null) {
+            const selectedUsers = [];
+            document.querySelectorAll('#inviteList input[type="checkbox"]:checked').forEach(checkbox => {
+                const userId = checkbox.value;
+                const user = nearbyUsers.find(u => u.id === userId);
+                if (user) selectedUsers.push(user);
+            });
+            
+            if (selectedUsers.length === 0) {
+                alert('Please select at least one user to invite!');
+                return;
+            }
+            
+            const groupId = generateGroupId();
+            const groupName = callType ? 
+                `${currentUser.name}'s ${callType} call` : 
+                `${currentUser.name}'s group`;
+            
+            const groupData = {
+                id: groupId,
+                name: groupName,
+                creator: currentUser.id,
+                creatorName: currentUser.name,
+                participants: [currentUser.id, ...selectedUsers.map(u => u.id)],
+                participantNames: [currentUser.name, ...selectedUsers.map(u => u.name)],
+                type: callType || 'chat',
+                createdAt: new Date().toISOString(),
+                isActive: true
+            };
+            
+            // Save group data
+            await saveToStorage(`group_${groupId}`, groupData);
+            
+            if (callType) {
+                // Start group call
+                await startGroupCallSession(groupData, selectedUsers);
+            } else {
+                // Create group chat
+                groupChats[groupId] = groupData;
+                activeGroupChat = groupData;
+                displayGroupChat();
+            }
+            
+            // Send invitations to selected users
+            selectedUsers.forEach(user => {
+                sendGroupInvitation(user, groupData);
+            });
+            
+            closeGroupModal();
+            sounds.connect();
+        }
+
+        async function sendGroupInvitation(user, groupData) {
+            if (!user.peerId || !peer) return;
+            
+            try {
+                const conn = peer.connect(user.peerId);
+                conn.on('open', () => {
+                    conn.send({
+                        type: groupData.type === 'chat' ? 'group_invitation' : 'group_call_invitation',
+                        groupId: groupData.id,
+                        groupName: groupData.name,
+                        inviterName: currentUser.name,
+                        inviterId: currentUser.id,
+                        callType: groupData.type !== 'chat' ? groupData.type : null
+                    });
+                });
+                
+                // Create notification for recipient
+                await createGroupNotification(user.id, groupData);
+                
+            } catch (error) {
+                console.error('Failed to send invitation to', user.name, error);
+            }
+        }
+
+        async function createGroupNotification(recipientId, groupData) {
+            const notificationKey = `chatnea_group_notifications_${recipientId}`;
+            const notifications = await loadFromStorage(notificationKey) || [];
+            
+            const notification = {
+                id: Date.now(),
+                groupId: groupData.id,
+                groupName: groupData.name,
+                inviterName: groupData.creatorName,
+                inviterId: groupData.creator,
+                type: groupData.type,
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+            
+            notifications.push(notification);
+            await saveToStorage(notificationKey, notifications);
+        }
+
+        function showGroupInvitation(data) {
+            pendingInvitation = data;
+            
+            document.getElementById('notificationAvatar').textContent = data.inviterName.charAt(0).toUpperCase();
+            document.getElementById('notificationTitle').textContent = 'Group Chat Invitation';
+            document.getElementById('notificationMessage').textContent = 
+                `${data.inviterName} invited you to join "${data.groupName}"`;
+            
+            document.getElementById('notificationPopup').style.display = 'block';
+            sounds.notification();
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (document.getElementById('notificationPopup').style.display === 'block') {
+                    declineInvitation();
+                }
+            }, 10000);
+        }
+
+        function showGroupCallInvitation(data) {
+            pendingInvitation = data;
+            
+            document.getElementById('notificationAvatar').textContent = data.inviterName.charAt(0).toUpperCase();
+            document.getElementById('notificationTitle').textContent = `Group ${data.callType} Call`;
+            document.getElementById('notificationMessage').textContent = 
+                `${data.inviterName} is starting a group ${data.callType} call`;
+            
+            document.getElementById('notificationPopup').style.display = 'block';
+            sounds.call();
+            
+            // Auto-hide after 15 seconds for calls
+            setTimeout(() => {
+                if (document.getElementById('notificationPopup').style.display === 'block') {
+                    declineInvitation();
+                }
+            }, 15000);
+        }
+
+        async function acceptInvitation() {
+            if (!pendingInvitation) return;
+            
+            document.getElementById('notificationPopup').style.display = 'none';
+            
+            if (pendingInvitation.callType) {
+                // Join group call
+                await joinGroupCall(pendingInvitation);
+            } else {
+                // Join group chat
+                await joinGroupChat(pendingInvitation);
+            }
+            
+            pendingInvitation = null;
+            sounds.connect();
+        }
+
+        function declineInvitation() {
+            document.getElementById('notificationPopup').style.display = 'none';
+            pendingInvitation = null;
+        }
+
+        async function joinGroupChat(invitation) {
+            const groupData = await loadFromStorage(`group_${invitation.groupId}`);
+            if (!groupData) {
+                alert('Group chat no longer exists.');
+                return;
+            }
+            
+            // Add current user to participants if not already there
+            if (!groupData.participants.includes(currentUser.id)) {
+                groupData.participants.push(currentUser.id);
+                groupData.participantNames.push(currentUser.name);
+                await saveToStorage(`group_${invitation.groupId}`, groupData);
+            }
+            
+            groupChats[invitation.groupId] = groupData;
+            activeGroupChat = groupData;
+            displayGroupChat();
+        }
+
+        async function joinGroupCall(invitation) {
+            try {
+                currentCallType = invitation.callType;
+                
+                // Get media access
+                showLoadingScreen(`Getting ${invitation.callType === 'video' ? 'camera and ' : ''}microphone access...`);
+                
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: invitation.callType === 'video' ? {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    } : false,
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+                
+                hideLoadingScreen();
+                
+                // Load group data
+                const groupData = await loadFromStorage(`group_${invitation.groupId}`);
+                if (!groupData) {
+                    alert('Group call no longer exists.');
+                    return;
+                }
+                
+                currentGroupCall = groupData;
+                showGroupCallInterface(invitation.callType === 'video');
+                
+                // Add self to participants
+                groupCallParticipants[currentUser.id] = {
+                    id: currentUser.id,
+                    name: currentUser.name,
+                    stream: localStream,
+                    peerId: currentUser.peerId
+                };
+                
+                updateGroupVideoGrid();
+                sounds.connect();
+                
+            } catch (error) {
+                hideLoadingScreen();
+                console.error('Failed to join group call:', error);
+                alert('Failed to access camera/microphone for group call.');
+            }
+        }
+
+        async function startGroupCallSession(groupData, selectedUsers) {
+            try {
+                // Get media access
+                showLoadingScreen(`Getting ${groupData.type === 'video' ? 'camera and ' : ''}microphone access...`);
+                
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: groupData.type === 'video' ? {
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 },
+                        facingMode: 'user'
+                    } : false,
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    }
+                });
+                
+                hideLoadingScreen();
+                
+                currentGroupCall = groupData;
+                showGroupCallInterface(groupData.type === 'video');
+                
+                // Add self to participants
+                groupCallParticipants[currentUser.id] = {
+                    id: currentUser.id,
+                    name: currentUser.name,
+                    stream: localStream,
+                    peerId: currentUser.peerId
+                };
+                
+                updateGroupVideoGrid();
+                startCallTimer();
+                
+            } catch (error) {
+                hideLoadingScreen();
+                console.error('Failed to start group call:', error);
+                alert('Failed to access camera/microphone for group call.');
+            }
+        }
+
+        function showGroupCallInterface(isVideo) {
+            const callInterface = document.getElementById('callInterface');
+            const groupVideoGrid = document.getElementById('groupVideoGrid');
+            const remoteVideo = document.getElementById('remoteVideo');
+            const localVideo = document.getElementById('localVideo');
+            
+            callInterface.style.display = 'flex';
+            groupVideoGrid.style.display = 'grid';
+            remoteVideo.style.display = 'none';
+            localVideo.style.display = 'none';
+            
+            if (!isVideo) {
+                callInterface.classList.add('audio-call');
+                document.getElementById('cameraBtn').style.display = 'none';
+            } else {
+                callInterface.classList.remove('audio-call');
+                document.getElementById('cameraBtn').style.display = 'flex';
+            }
+            
+            document.getElementById('callStatus').textContent = 
+                `Group ${currentCallType} call - ${Object.keys(groupCallParticipants).length} participants`;
+        }
+
+        function updateGroupVideoGrid() {
+            const grid = document.getElementById('groupVideoGrid');
+            grid.innerHTML = '';
+            
+            Object.values(groupCallParticipants).forEach(participant => {
+                const participantDiv = document.createElement('div');
+                participantDiv.className = 'participant-video';
+                participantDiv.id = `participant_${participant.id}`;
+                
+                if (participant.stream && currentCallType === 'video') {
+                    const video = document.createElement('video');
+                    video.srcObject = participant.stream;
+                    video.autoplay = true;
+                    video.muted = participant.id === currentUser.id; // Mute own video
+                    video.playsInline = true;
+                    participantDiv.appendChild(video);
+                } else {
+                    // Audio-only participant
+                    const avatar = document.createElement('div');
+                    avatar.className = 'audio-avatar';
+                    avatar.textContent = participant.name.charAt(0).toUpperCase();
+                    avatar.style.fontSize = '3rem';
+                    avatar.style.margin = 'auto';
+                    participantDiv.appendChild(avatar);
+                }
+                
+                const nameLabel = document.createElement('div');
+                nameLabel.className = 'participant-name';
+                nameLabel.textContent = participant.name + (participant.id === currentUser.id ? ' (You)' : '');
+                participantDiv.appendChild(nameLabel);
+                
+                if (participant.muted) {
+                    const mutedIcon = document.createElement('div');
+                    mutedIcon.className = 'participant-muted';
+                    mutedIcon.textContent = '🔇';
+                    participantDiv.appendChild(mutedIcon);
+                }
+                
+                grid.appendChild(participantDiv);
+            });
+        }
+
+        function endGroupCall() {
+            if (currentGroupCall) {
+                currentGroupCall = null;
+            }
+            
+            groupCallParticipants = {};
+            
+            if (localStream) {
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+            }
+            
+            document.getElementById('groupVideoGrid').innerHTML = '';
+            endCall(); // This will handle the rest of the cleanup
+        }
+
+        function displayGroupChat() {
+            if (!activeGroupChat) return;
+            
+            // Update chat header to show group info
+            const messagesEl = document.getElementById('messages');
+            messagesEl.innerHTML = `
+                <div class="group-chat-header">
+                    <div class="group-info">
+                        <div class="group-avatar">👥</div>
+                        <div class="group-details">
+                            <h4>${activeGroupChat.name}</h4>
+                            <p>${activeGroupChat.participantNames.length} members</p>
+                        </div>
+                    </div>
+                    <div class="group-call-controls">
+                        <button class="group-call-btn voice" onclick="startGroupCallFromChat('voice')">📞</button>
+                        <button class="group-call-btn video" onclick="startGroupCallFromChat('video')">📹</button>
+                    </div>
+                </div>
+                <div class="empty-state">
+                    <h3>👥 Group Chat: ${activeGroupChat.name}</h3>
+                    <p>Start chatting with ${activeGroupChat.participantNames.join(', ')}</p>
+                </div>
+            `;
+            
+            document.getElementById('messageInput').disabled = false;
+            document.getElementById('sendButton').disabled = false;
+            document.getElementById('messageInput').placeholder = `Message ${activeGroupChat.name}...`;
+            
+            // Load group messages
+            loadGroupMessages();
+        }
+
+        async function loadGroupMessages() {
+            if (!activeGroupChat) return;
+            
+            const chatKey = `chatnea_group_chat_${activeGroupChat.id}`;
+            const groupMessages = await loadFromStorage(chatKey) || [];
+            
+            const messagesEl = document.getElementById('messages');
+            const header = messagesEl.querySelector('.group-chat-header');
+            messagesEl.innerHTML = '';
+            
+            if (header) {
+                messagesEl.appendChild(header);
+            }
+            
+            if (groupMessages.length === 0) {
+                const emptyState = document.createElement('div');
+                emptyState.className = 'empty-state';
+                emptyState.innerHTML = `
+                    <h3>👥 Group Chat: ${activeGroupChat.name}</h3>
+                    <p>Start chatting with ${activeGroupChat.participantNames.join(', ')}</p>
+                `;
+                messagesEl.appendChild(emptyState);
+                return;
+            }
+            
+            groupMessages.forEach(msg => {
+                const messageEl = document.createElement('div');
+                const isOwnMessage = msg.senderId === currentUser.id;
+                messageEl.className = `message ${isOwnMessage ? 'own' : ''}`;
+                
+                const senderName = msg.senderName || 'Unknown';
+                const avatar = senderName.charAt(0).toUpperCase();
+                
+                messageEl.innerHTML = `
+                    <div class="user-avatar">${avatar}</div>
+                    <div class="message-content">
+                        ${!isOwnMessage ? `<div style="font-size: 0.8rem; color: #666; margin-bottom: 5px;">${senderName}</div>` : ''}
+                        ${msg.content}
+                    </div>
+                `;
+                
+                messagesEl.appendChild(messageEl);
+            });
+            
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function startGroupCallFromChat(callType) {
+            if (!activeGroupChat) return;
+            
+            // Start group call with existing group members
+            currentCallType = callType;
+            startGroupCallSession({
+                ...activeGroupChat,
+                type: callType
+            }, activeGroupChat.participants.filter(id => id !== currentUser.id).map(id => ({
+                id: id,
+                name: activeGroupChat.participantNames[activeGroupChat.participants.indexOf(id)],
+                peerId: null // Would need to be looked up in real implementation
+            })));
         }
 
         function showLoadingScreen(text) {
@@ -2317,363 +3257,50 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             reader.readAsDataURL(file);
         }
 
-        // Periodic sync functions
-        async function periodicSync() {
-            if (currentUser && userLocation) {
-                await syncUserData();
-                await updateNearbyUsersInStorage(userLocation);
-                await findNearbyUsers(userLocation);
-            }
-        }
-
-        // Cleanup inactive users
-        async function cleanupInactiveUsers() {
-            if (!userLocation) return;
+        // Message notification functions
+        async function createMessageNotification(recipientId, senderName, messageContent) {
+            const notificationKey = `chatnea_notifications_${recipientId}`;
+            const notifications = await loadFromStorage(notificationKey) || [];
             
-            const locationKey = `nearby_users_${userLocation.replace(/\s+/g, '_').toLowerCase()}`;
-            const nearbyData = await loadFromStorage(locationKey);
-            
-            if (nearbyData && nearbyData.users) {
-                // Remove users inactive for more than 2 hours
-                const activeUsers = nearbyData.users.filter(user => 
-                    new Date(user.lastSeen) > new Date(Date.now() - 2 * 60 * 60 * 1000)
-                );
-                
-                if (activeUsers.length !== nearbyData.users.length) {
-                    await saveToStorage(locationKey, { users: activeUsers });
-                }
-            }
-        }
-
-        function hideDownloadSection() {
-            document.getElementById('downloadSection').style.display = 'none';
-            localStorage.setItem('chatneaHideDownload', 'true');
-            sounds.notification();
-        }
-
-        window.addEventListener('load', async function() {
-            const customBg = localStorage.getItem('chatneaCustomBackground');
-            if (customBg) {
-                document.body.style.background = `url('${customBg}') center/cover no-repeat`;
-            }
-            
-            // Check if download section should be hidden
-            if (localStorage.getItem('chatneaHideDownload') === 'true') {
-                document.getElementById('downloadSection').style.display = 'none';
-            }
-            
-            // Initialize EmailJS for welcome emails
-            initializeEmailJS();
-            
-            // Check if user is already logged in
-            const storedUser = localStorage.getItem('chatneaUser');
-            if (storedUser) {
-                currentUser = JSON.parse(storedUser);
-                await completeAuth(currentUser);
-            }
-            
-            // Check if install prompt was dismissed
-            if (!localStorage.getItem('installPromptDismissed')) {
-                setTimeout(() => {
-                    if (!deferredPrompt) {
-                        showInstallPrompt();
-                    }
-                }, 5000);
-            }
-            
-            // Start periodic sync every 30 seconds
-            setInterval(periodicSync, 30000);
-            
-            // Cleanup inactive users every 5 minutes
-            setInterval(cleanupInactiveUsers, 5 * 60 * 1000);
-        });
-
-        function requestLocation() {
-            const statusEl = document.getElementById('statusMessage');
-            statusEl.style.display = 'block';
-            statusEl.className = 'status searching';
-            statusEl.innerHTML = '📍 Getting your location...';
-            
-            sounds.notification();
-
-            setTimeout(() => {
-                showManualInput();
-                statusEl.innerHTML = '📍 Enter your city or area below to find people nearby';
-            }, 2000);
-
-            if (!navigator.geolocation) {
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    
-                    const locationName = `Area_${Math.abs(Math.round(lat))}_${Math.abs(Math.round(lng))}`;
-                    connectToArea(locationName, lat, lng);
-                },
-                (error) => {
-                    console.log('Location access denied or unavailable - using manual input');
-                },
-                {
-                    enableHighAccuracy: false,
-                    timeout: 5000,
-                    maximumAge: 600000
-                }
-            );
-        }
-
-        function showManualInput() {
-            document.querySelector('.manual-location').style.display = 'flex';
-            document.querySelector('.location-note').style.display = 'none';
-            document.getElementById('locationBtn').style.display = 'none';
-        }
-
-        function connectManually() {
-            const location = document.getElementById('locationInput').value.trim();
-            if (!location) {
-                alert('Please enter a location first!');
-                return;
-            }
-            connectToArea(location);
-        }
-
-        async function connectToArea(location, lat = null, lng = null) {
-            const statusEl = document.getElementById('statusMessage');
-            statusEl.style.display = 'block';
-            statusEl.className = 'status searching';
-            statusEl.innerHTML = '📍 Searching for people in your area...';
-
-            userLocation = location;
-            currentUser.location = location;
-
-            // If coordinates provided, update map to show local area
-            if (lat && lng) {
-                updateMapForLocation(lat, lng, location);
-            } else {
-                // For manual location, use approximate coordinates
-                const coords = getApproximateCoords(location);
-                updateMapForLocation(coords.lat, coords.lng, location);
-            }
-
-            // Sync location data to storage
-            await syncLocationData();
-            await updateNearbyUsersInStorage(location);
-
-            setTimeout(async () => {
-                await findNearbyUsers(location);
-                statusEl.className = 'status connected';
-                statusEl.innerHTML = `✅ Connected to ${location} area`;
-                sounds.connect();
-            }, 1500);
-        }
-
-        async function findNearbyUsers(location) {
-            try {
-                // Only load real users from storage who are in the same location and currently online
-                const realUsers = await loadNearbyUsersFromStorage(location);
-                
-                // Filter to only show users who are genuinely online (active in last 5 minutes)
-                const currentlyOnline = realUsers.filter(user => {
-                    const lastSeen = new Date(user.lastSeen);
-                    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-                    return lastSeen > fiveMinutesAgo && user.isOnline;
-                });
-                
-                nearbyUsers = currentlyOnline;
-                displayNearbyUsers();
-            } catch (error) {
-                console.error('Error finding nearby users:', error);
-                nearbyUsers = [];
-                displayNearbyUsers();
-            }
-        }
-
-        function displayNearbyUsers() {
-            const userList = document.getElementById('userList');
-            userList.innerHTML = '';
-
-            if (nearbyUsers.length === 0) {
-                userList.innerHTML = `
-                    <div class="empty-state">
-                        <h3>🔍 Looking for people nearby...</h3>
-                        <p>No one else is online in your area right now. Try again in a few minutes!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            nearbyUsers.forEach(user => {
-                const userCard = document.createElement('div');
-                userCard.className = 'user-card';
-                userCard.onclick = () => startChat(user);
-                
-                const timeDiff = Math.floor((new Date() - new Date(user.lastSeen)) / 60000);
-                const lastSeenText = timeDiff < 1 ? 'Just now' : `${timeDiff} min ago`;
-                
-                userCard.innerHTML = `
-                    <div class="user-avatar">${user.avatar}</div>
-                    <div>
-                        <div style="font-weight: 600;">${user.name}</div>
-                        <div style="font-size: 0.8rem; color: #666;">🟢 ${lastSeenText}</div>
-                    </div>
-                    <button class="call-user-btn" onclick="event.stopPropagation(); callUser('${user.id}')" title="Call ${user.name}">📞</button>
-                `;
-                
-                userList.appendChild(userCard);
-            });
-        }
-
-        function startChat(user) {
-            activeChat = user;
-            
-            document.querySelectorAll('.user-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-            
-            document.getElementById('messageInput').disabled = false;
-            document.getElementById('sendButton').disabled = false;
-            document.getElementById('messageInput').placeholder = `Message ${user.name}...`;
-            
-            if (!messages[user.id]) {
-                messages[user.id] = [];
-            }
-            
-            displayMessages();
-            sounds.notification();
-        }
-
-        async function displayMessages() {
-            const messagesEl = document.getElementById('messages');
-            messagesEl.innerHTML = '';
-            
-            const chatKey = `chatnea_chat_${[currentUser.id, activeChat.id].sort().join('_')}`;
-            
-            // Load messages from storage
-            const storedMessages = await loadFromStorage(chatKey) || JSON.parse(localStorage.getItem(chatKey) || '[]');
-            messages[activeChat.id] = storedMessages;
-            
-            if (!activeChat || !messages[activeChat.id] || messages[activeChat.id].length === 0) {
-                messagesEl.innerHTML = `
-                    <div class="empty-state">
-                        <h3>💬 Chat with ${activeChat ? activeChat.name : 'someone'}</h3>
-                        <p>Start the conversation by sending a message below!</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            messages[activeChat.id].forEach(msg => {
-                const messageEl = document.createElement('div');
-                const isOwnMessage = msg.senderId === currentUser.id;
-                messageEl.className = `message ${isOwnMessage ? 'own' : ''}`;
-                
-                const avatar = isOwnMessage ? currentUser.avatar : activeChat.avatar;
-                messageEl.innerHTML = `
-                    <div class="user-avatar">${avatar}</div>
-                    <div class="message-content">${msg.content}</div>
-                `;
-                
-                messagesEl.appendChild(messageEl);
-            });
-            
-            messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const content = input.value.trim();
-            
-            if (!content || !activeChat) return;
-            
-            // Filter bad words
-            const filteredContent = filterBadWords(content);
-            
-            if (!messages[activeChat.id]) {
-                messages[activeChat.id] = [];
-            }
-            
-            const userMessage = {
-                sender: currentUser.name,
+            const notification = {
+                id: Date.now(),
                 senderId: currentUser.id,
-                content: filteredContent,
-                timestamp: new Date().toISOString()
+                senderName: senderName,
+                message: messageContent.substring(0, 50) + (messageContent.length > 50 ? '...' : ''),
+                timestamp: new Date().toISOString(),
+                read: false
             };
             
-            messages[activeChat.id].push(userMessage);
-            
-            const chatKey = `chatnea_chat_${[currentUser.id, activeChat.id].sort().join('_')}`;
-            
-            // Load existing chat from storage
-            const existingChat = await loadFromStorage(chatKey) || [];
-            existingChat.push(userMessage);
-            
-            // Save to storage
-            await saveToStorage(chatKey, existingChat);
-            localStorage.setItem(chatKey, JSON.stringify(existingChat));
-            
-            input.value = '';
-            displayMessages();
-            sounds.message();
+            notifications.push(notification);
+            await saveToStorage(notificationKey, notifications);
         }
 
-
-
-        document.getElementById('messageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        document.getElementById('locationInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                connectManually();
-            }
-        });
-
-        // Auth form enter key handlers
-        document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                loginUser();
-            }
-        });
-
-        document.getElementById('confirmPassword').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                signupUser();
-            }
-        });
-
-        window.addEventListener('beforeunload', async function() {
-            if (currentCall) {
-                currentCall.close();
-            }
-            if (localStream) {
-                localStream.getTracks().forEach(track => track.stop());
-            }
-            if (peer) {
-                peer.destroy();
-            }
+        async function checkForNewMessages() {
+            if (!currentUser) return;
             
-            // Remove user from nearby users when they close the page
-            if (currentUser && userLocation) {
-                const locationKey = `nearby_users_${userLocation.replace(/\s+/g, '_').toLowerCase()}`;
-                let nearbyData = await loadFromStorage(locationKey) || { users: [] };
-                nearbyData.users = nearbyData.users.filter(user => user.id !== currentUser.id);
-                await saveToStorage(locationKey, nearbyData);
-                
-                currentUser.isOnline = false;
-                localStorage.setItem('chatneaUser', JSON.stringify(currentUser));
-            }
-        });
-
-        setInterval(() => {
-            if (currentUser && userLocation) {
-                findNearbyUsers(userLocation);
-            }
-        }, 30000);
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9867b44722986c40',t:'MTc1OTEwOTMxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+            const notificationKey = `chatnea_notifications_${currentUser.id}`;
+            const notifications = await loadFromStorage(notificationKey) || [];
+            const unreadNotifications = notifications.filter(n => !n.read);
+            
+            // Check for group notifications too
+            const groupNotificationKey = `chatnea_group_notifications_${currentUser.id}`;
+            const groupNotifications = await loadFromStorage(groupNotificationKey) || [];
+            const unreadGroupNotifications = groupNotifications.filter(n => !n.read);
+            
+            const totalUnread = unreadNotifications.length + unreadGroupNotifications.length;
+            
+            if (totalUnread > 0) {
+                // Show browser notification if permission granted
+                if (Notification.permission === 'granted') {
+                    let notificationText = '';
+                    if (unreadNotifications.length > 0) {
+                        const latestNotification = unreadNotifications[unreadNotifications.length - 1];
+                        notificationText = `💬 New message from ${latestNotification.senderName}: ${latestNotification.message}`;
+                    } else if (unreadGroupNotifications.length > 0) {
+                        const latestGroupNotification = unreadGroupNotifications[unreadGroupNotifications.length - 1];
+                        notificationText = `👥 ${latestGroupNotification.inviterName} invited you to ${latestGroupNotification.groupName}`;
+                    }
+                    
+                    new Notification('Chatnea', {
+                        body: notificationText,
+                        icon: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iN<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'986bdc2f31656c46',t:'MTc1OTE1Mjg4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
