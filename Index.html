@@ -135,6 +135,24 @@
             color: white;
         }
 
+        .already-have-app-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .already-have-app-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
         .download-features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1087,9 +1105,7 @@
             </div>
             <h1>Chatnea</h1>
             <p>Connect and chat with people around you</p>
-            <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin-top: 15px; font-size: 0.9rem;">
-                <strong>✅ Ready to Deploy!</strong> This version works perfectly on Netlify with no build process required
-            </div>
+
         </div>
 
         <!-- Download App Section -->
@@ -1097,6 +1113,7 @@
             <div class="download-header">
                 <h3>📱 Download Chatnea App</h3>
                 <p>Get the full experience on all your devices</p>
+                <button class="already-have-app-btn" onclick="hideDownloadSection()">✅ I already have the app</button>
             </div>
 
             <div class="download-buttons">
@@ -2328,10 +2345,21 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             }
         }
 
+        function hideDownloadSection() {
+            document.getElementById('downloadSection').style.display = 'none';
+            localStorage.setItem('chatneaHideDownload', 'true');
+            sounds.notification();
+        }
+
         window.addEventListener('load', async function() {
             const customBg = localStorage.getItem('chatneaCustomBackground');
             if (customBg) {
                 document.body.style.background = `url('${customBg}') center/cover no-repeat`;
+            }
+            
+            // Check if download section should be hidden
+            if (localStorage.getItem('chatneaHideDownload') === 'true') {
+                document.getElementById('downloadSection').style.display = 'none';
             }
             
             // Initialize EmailJS for welcome emails
@@ -2647,5 +2675,5 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             }
         }, 30000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9867a7b157e3e52c',t:'MTc1OTEwODc5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9867b44722986c40',t:'MTc1OTEwOTMxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
