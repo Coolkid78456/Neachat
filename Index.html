@@ -1644,7 +1644,7 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             // Load existing nearby users
             let nearbyData = await loadFromStorage(locationKey) || { users: [] };
             
-            // Update or add current user
+            // Update or add current user with real online status
             const userIndex = nearbyData.users.findIndex(u => u.id === currentUser.id);
             const userData = {
                 id: currentUser.id,
@@ -1653,7 +1653,8 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 location: location,
                 lastSeen: new Date().toISOString(),
                 isOnline: true,
-                peerId: currentUser.peerId
+                peerId: currentUser.peerId,
+                inCall: currentCall !== null
             };
             
             if (userIndex >= 0) {
@@ -1662,9 +1663,9 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 nearbyData.users.push(userData);
             }
             
-            // Remove users who haven't been active in the last hour
+            // Remove users who haven't been active in the last 10 minutes (stricter cleanup)
             nearbyData.users = nearbyData.users.filter(user => 
-                new Date(user.lastSeen) > new Date(Date.now() - 60 * 60 * 1000)
+                new Date(user.lastSeen) > new Date(Date.now() - 10 * 60 * 1000)
             );
             
             await saveToStorage(locationKey, nearbyData);
@@ -1854,9 +1855,20 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             sounds.connect();
         }
 
-        function logout() {
+        async function logout() {
+            // Mark user as offline before logging out
+            if (currentUser && userLocation) {
+                const locationKey = `nearby_users_${userLocation.replace(/\s+/g, '_').toLowerCase()}`;
+                let nearbyData = await loadFromStorage(locationKey) || { users: [] };
+                
+                // Remove current user from nearby users list
+                nearbyData.users = nearbyData.users.filter(user => user.id !== currentUser.id);
+                await saveToStorage(locationKey, nearbyData);
+            }
+            
             localStorage.removeItem('chatneaUser');
             currentUser = null;
+            userLocation = null;
             
             document.getElementById('userProfile').style.display = 'none';
             document.getElementById('authSection').style.display = 'block';
@@ -1948,9 +1960,9 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
         }
 
         function updateLocalStats() {
-            // Show actual number of real users in the area
-            const realUserCount = nearbyUsers.length + 1; // +1 for current user
-            const activeCalls = Math.min(Math.floor(realUserCount / 3), realUserCount); // Realistic call ratio
+            // Show only real users who are actually online
+            const realUserCount = nearbyUsers.length + (currentUser ? 1 : 0); // +1 for current user if logged in
+            const activeCalls = nearbyUsers.filter(user => user.inCall).length; // Only count users actually in calls
             
             document.getElementById('chatneaUsers').textContent = realUserCount;
             document.getElementById('activeCalls').textContent = activeCalls;
@@ -2431,10 +2443,17 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
 
         async function findNearbyUsers(location) {
             try {
-                // Load real users from storage who are in the same location
+                // Only load real users from storage who are in the same location and currently online
                 const realUsers = await loadNearbyUsersFromStorage(location);
-                nearbyUsers = realUsers;
                 
+                // Filter to only show users who are genuinely online (active in last 5 minutes)
+                const currentlyOnline = realUsers.filter(user => {
+                    const lastSeen = new Date(user.lastSeen);
+                    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+                    return lastSeen > fiveMinutesAgo && user.isOnline;
+                });
+                
+                nearbyUsers = currentlyOnline;
                 displayNearbyUsers();
             } catch (error) {
                 console.error('Error finding nearby users:', error);
@@ -2599,7 +2618,7 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             }
         });
 
-        window.addEventListener('beforeunload', function() {
+        window.addEventListener('beforeunload', async function() {
             if (currentCall) {
                 currentCall.close();
             }
@@ -2610,7 +2629,13 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
                 peer.destroy();
             }
             
-            if (currentUser) {
+            // Remove user from nearby users when they close the page
+            if (currentUser && userLocation) {
+                const locationKey = `nearby_users_${userLocation.replace(/\s+/g, '_').toLowerCase()}`;
+                let nearbyData = await loadFromStorage(locationKey) || { users: [] };
+                nearbyData.users = nearbyData.users.filter(user => user.id !== currentUser.id);
+                await saveToStorage(locationKey, nearbyData);
+                
                 currentUser.isOnline = false;
                 localStorage.setItem('chatneaUser', JSON.stringify(currentUser));
             }
@@ -2622,5 +2647,5 @@ This email was sent because you signed up for Chatnea. If you didn't sign up, pl
             }
         }, 30000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9867a315f248f09d',t:'MTc1OTEwODYwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9867a7b157e3e52c',t:'MTc1OTEwODc5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
