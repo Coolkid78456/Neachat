@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatnea - Connect with People Around You</title>
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiQ2hhdG5lYSIsInNob3J0X25hbWUiOiJDaGF0bmVhIiwiZGVzY3JpcHRpb24iOiJDb25uZWN0IHdpdGggcGVvcGxlIGFyb3VuZCB5b3UiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzY2N2VlYSIsInRoZW1lX2NvbG9yIjoiIzY2N2VlYSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lqNDhjbVZqZENCNFBTSTJNQ0lnZVQwaU5qQWlJSGRwWkhSb1BTSXhNakFpSUdobGFXZG9kRDBpTVRJd0lpQm1hV3hzUFNJak5qWjNaV1ZoSWo0OEwzTjJaejQ9Iiwic2l6ZXMiOiIxMjB4MTIwIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifV19">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Chatnea">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48cmVjdCB4PSI2MCIgeT0iNjAiIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjNjY3ZWVhIj48L3N2Zz4=">
     <script src="https://unpkg.com/peerjs@1.5.0/dist/peerjs.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         body {
             box-sizing: border-box;
@@ -51,6 +60,169 @@
             font-size: 1.1rem;
             opacity: 0.9;
             margin: 10px 0;
+        }
+
+        .download-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .download-header {
+            margin-bottom: 25px;
+        }
+
+        .download-header h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .download-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .pwa-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .android-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .ios-btn {
+            background: linear-gradient(135deg, #007AFF, #0056CC);
+            color: white;
+        }
+
+        .desktop-btn {
+            background: linear-gradient(135deg, #FF6B6B, #EE5A52);
+            color: white;
+        }
+
+        .already-have-app-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .already-have-app-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .download-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .install-prompt {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .install-prompt h4 {
+            margin: 0 0 10px 0;
+        }
+
+        .install-prompt p {
+            margin: 0 0 15px 0;
+            opacity: 0.9;
+        }
+
+        .install-prompt-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .install-prompt-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .auth-section {
@@ -138,6 +310,46 @@
             background: #5a6fd8;
         }
 
+        .local-map-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .map-container {
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .map-stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         .location-setup {
             background: white;
             border-radius: 15px;
@@ -145,6 +357,38 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             display: none;
+        }
+
+        .location-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .location-input input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        .location-input button {
+            padding: 12px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .location-input button:hover {
+            background: #5a6fd8;
         }
 
         .location-btn {
@@ -164,6 +408,30 @@
         .location-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .location-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .manual-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            padding: 5px;
+        }
+
+        .manual-btn:hover {
+            color: #5a6fd8;
+        }
+
+        .location-note {
+            text-align: center;
         }
 
         .call-buttons {
@@ -205,7 +473,6 @@
             border-radius: 8px;
             margin-bottom: 15px;
             font-weight: 500;
-            display: none;
         }
 
         .status.connected {
@@ -306,6 +573,48 @@
 
         .user-card:hover .call-user-btn {
             display: block;
+        }
+
+        .group-controls {
+            padding: 15px;
+            border-bottom: 1px solid #e1e5e9;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .group-btn {
+            padding: 8px 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .group-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .group-btn.voice {
+            background: #4CAF50;
+        }
+
+        .group-btn.video {
+            background: #2196F3;
+        }
+
+        .group-btn.voice:hover {
+            background: #45a049;
+        }
+
+        .group-btn.video:hover {
+            background: #1976D2;
         }
 
         .messages {
@@ -523,6 +832,55 @@
             font-size: 1.2rem;
         }
 
+        .theme-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .theme-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .sound-toggle {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .sound-toggle:hover {
+            transform: scale(1.1);
+            background: white;
+        }
+
+        .sound-toggle.muted {
+            background: #f44336;
+            color: white;
+        }
+
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -541,6 +899,14 @@
             padding: 40px;
             border-radius: 20px;
             text-align: center;
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .loading-spinner {
@@ -558,6 +924,68 @@
             100% { transform: rotate(360deg); }
         }
 
+        .user-profile {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: none;
+        }
+
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .upload-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .upload-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
@@ -567,8 +995,13 @@
                 font-size: 2rem;
             }
             
-            .call-buttons {
+            .location-input {
                 flex-direction: column;
+            }
+            
+            .location-input input,
+            .location-input button {
+                width: 100%;
             }
 
             .local-video {
@@ -588,16 +1021,67 @@
                 height: 50px;
                 font-size: 1.2rem;
             }
+
+            .auth-tabs {
+                flex-direction: column;
+            }
+
+            .map-container {
+                height: 250px;
+            }
+
+            .map-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-btn {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Theme Controls -->
+    <div class="theme-controls">
+        <button class="sound-toggle" id="soundToggle" title="Toggle Sound Effects">🔊</button>
+        <button class="theme-btn" id="themeBtn" title="Change Background">📷</button>
+    </div>
+
+    <!-- User Profile -->
+    <div class="user-profile" id="userProfile">
+        <div id="profileInfo"></div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-content">
+        <div class="loading-content" id="loadingContent">
             <div class="loading-spinner"></div>
-            <h3 id="loadingText">Connecting...</h3>
+            <h3 id="loadingText">Connecting to call...</h3>
             <p>Please wait while we set up your connection</p>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="upload-content">
+            <h3>Change Background Theme</h3>
+            <div class="upload-area" id="uploadArea">
+                <p>📷 Click here or drag & drop an image</p>
+                <p style="font-size: 0.9rem; color: #666;">Supports JPG, PNG, GIF</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <div style="margin-top: 20px;">
+                <button id="cancelUploadBtn" style="padding: 10px 20px; margin-right: 10px; background: #ccc; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+                <button id="resetBgBtn" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 5px; cursor: pointer;">Reset to Default</button>
+            </div>
         </div>
     </div>
 
@@ -628,14 +1112,104 @@
                             <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
                             <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
                         </linearGradient>
+                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="rgba(0,0,0,0.3)"/>
+                        </filter>
                     </defs>
-                    <circle cx="40" cy="40" r="35" fill="url(#logoGradient)"/>
+                    
+                    <circle cx="40" cy="40" r="35" fill="url(#logoGradient)" filter="url(#shadow)"/>
                     <path d="M40 15 C32 15 26 21 26 29 C26 37 40 50 40 50 S54 37 54 29 C54 21 48 15 40 15 Z" fill="white" opacity="0.9"/>
                     <circle cx="40" cy="29" r="6" fill="#667eea"/>
+                    <ellipse cx="28" cy="55" rx="8" ry="6" fill="white" opacity="0.9"/>
+                    <ellipse cx="52" cy="58" rx="10" ry="7" fill="white" opacity="0.8"/>
+                    <circle cx="25" cy="35" r="2" fill="white" opacity="0.7"/>
+                    <circle cx="55" cy="32" r="2" fill="white" opacity="0.7"/>
+                    <circle cx="35" cy="65" r="2" fill="white" opacity="0.7"/>
+                    <line x1="27" y1="36" x2="38" y2="42" stroke="white" stroke-width="1" opacity="0.5"/>
+                    <line x1="53" y1="34" x2="42" y2="40" stroke="white" stroke-width="1" opacity="0.5"/>
+                    <line x1="37" y1="63" x2="42" y2="52" stroke="white" stroke-width="1" opacity="0.5"/>
                 </svg>
             </div>
             <h1>Chatnea</h1>
             <p>Connect and chat with people around you</p>
+        </div>
+
+        <!-- Download App Section -->
+        <div class="download-section" id="downloadSection">
+            <div class="download-header">
+                <h3>📱 Download Chatnea App</h3>
+                <p>Get the full experience on all your devices</p>
+                <button class="already-have-app-btn" id="hideDownloadBtn">✅ I already have the app</button>
+            </div>
+
+            <div class="download-buttons">
+                <button class="download-btn pwa-btn" id="pwaBtn">
+                    <span>📱</span>
+                    <div>
+                        <div>Install Web App</div>
+                        <small>Works on all devices</small>
+                    </div>
+                </button>
+                
+                <button class="download-btn android-btn" id="androidBtn">
+                    <span>🤖</span>
+                    <div>
+                        <div>Android APK</div>
+                        <small>Direct download</small>
+                    </div>
+                </button>
+                
+                <button class="download-btn ios-btn" id="iosBtn">
+                    <span>🍎</span>
+                    <div>
+                        <div>iOS Shortcut</div>
+                        <small>Add to home screen</small>
+                    </div>
+                </button>
+                
+                <button class="download-btn desktop-btn" id="desktopBtn">
+                    <span>💻</span>
+                    <div>
+                        <div>Desktop App</div>
+                        <small>Windows, Mac, Linux</small>
+                    </div>
+                </button>
+            </div>
+
+            <div class="install-prompt" id="installPrompt">
+                <h4>📱 Install Chatnea</h4>
+                <p>Add Chatnea to your home screen for quick access and offline features!</p>
+                <button class="install-prompt-btn" id="installNowBtn">Install Now</button>
+                <button class="install-prompt-btn" id="maybeLaterBtn" style="background: transparent; color: white; border: 1px solid white;">Maybe Later</button>
+            </div>
+
+            <div class="download-features">
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Lightning Fast</div>
+                    <div class="feature-desc">Instant loading and smooth performance</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📴</div>
+                    <div class="feature-title">Works Offline</div>
+                    <div class="feature-desc">Access your chats even without internet</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔔</div>
+                    <div class="feature-title">Push Notifications</div>
+                    <div class="feature-desc">Never miss a message or call</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-title">Secure & Private</div>
+                    <div class="feature-desc">End-to-end encrypted conversations</div>
+                </div>
+            </div>
+
+            <div class="qr-code" id="qrCode" style="display: none;">
+                <canvas id="qrCanvas" width="200" height="200"></canvas>
+                <p style="margin-top: 10px; font-size: 0.9rem; color: #666;">Scan with your phone to download</p>
+            </div>
         </div>
 
         <!-- Authentication Section -->
@@ -682,18 +1256,40 @@
             </div>
         </div>
 
-        <div class="location-setup" id="locationSetup">
-            <h3 style="margin-bottom: 20px; color: #333;">📍 Set Your Location</h3>
-            <button class="location-btn" id="locationBtn">📍 Share My Location</button>
-            <div class="call-buttons">
-                <button class="call-btn voice-call-btn" id="voiceCallBtn">📞 Start Voice Call</button>
-                <button class="call-btn video-call-btn" id="videoCallBtn">📹 Start Video Call</button>
+        <!-- Local Area Map Section -->
+        <div class="local-map-section" id="localMapSection">
+            <h3 style="margin-bottom: 15px; color: #333;">📍 Your Neighborhood</h3>
+            <div class="map-container" id="mapContainer"></div>
+            <div class="map-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="chatneaUsers">0</div>
+                    <div class="stat-label">Chatnea Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="activeCalls">0</div>
+                    <div class="stat-label">Active Calls</div>
+                </div>
             </div>
-            <div id="statusMessage" class="status">
+        </div>
+
+        <div class="location-setup" id="locationSetup">
+            <div class="location-input">
+                <button id="locationBtn" class="location-btn">📍 Share My Location</button>
+                <div class="manual-location" style="display: none;" id="manualLocation">
+                    <input type="text" id="locationInput" placeholder="Or enter your city manually" />
+                    <button id="connectManuallyBtn">Connect</button>
+                </div>
+            </div>
+            <div class="call-buttons">
+                <button id="voiceCallBtn" class="call-btn voice-call-btn">📞 Call People Nearby</button>
+                <button id="videoCallBtn" class="call-btn video-call-btn">📹 Video Call Nearby</button>
+            </div>
+            <div id="statusMessage" class="status searching" style="display: none;">
                 📍 Getting your location...
             </div>
-            <div style="text-align: center;">
-                <p style="font-size: 0.9rem; color: #666; margin: 10px 0;">We need your location to find people nearby. Your exact location is never shared.</p>
+            <div class="location-note">
+                <p style="font-size: 0.9rem; color: #666; margin: 10px 0;">We need your location to find people nearby. Your exact location is never shared with other users.</p>
+                <button id="manualBtn" class="manual-btn">Enter location manually instead</button>
             </div>
         </div>
 
@@ -702,9 +1298,15 @@
                 <h3>👥 People Nearby</h3>
                 <div class="user-list" id="userList">
                     <div class="empty-state">
-                        <p>Set your location above to find people nearby!</p>
+                        <p>Enter your location above to find people nearby!</p>
                     </div>
                 </div>
+            </div>
+
+            <div class="group-controls">
+                <button class="group-btn" id="createGroupBtn">👥 Create Group Chat</button>
+                <button class="group-btn voice" id="groupVoiceBtn">📞 Group Voice Call</button>
+                <button class="group-btn video" id="groupVideoBtn">📹 Group Video Call</button>
             </div>
 
             <div class="messages" id="messages">
@@ -726,6 +1328,7 @@
         let currentUser = null;
         let userLocation = null;
         let activeChat = null;
+        let messages = {};
         let nearbyUsers = [];
         let currentCallType = null;
         let peer = null;
@@ -735,6 +1338,9 @@
         let callTimer = null;
         let isMuted = false;
         let isCameraOff = false;
+        let soundEnabled = true;
+        let localMap = null;
+        let deferredPrompt = null;
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -750,14 +1356,39 @@
                     console.error('Error loading saved user:', error);
                 }
             }
+
+            // Check if download section should be hidden
+            if (localStorage.getItem('chatneaDownloadHidden') === 'true') {
+                hideDownloadSection();
+            }
+
+            // Load custom background if set
+            const customBg = localStorage.getItem('chatneaCustomBackground');
+            if (customBg) {
+                document.body.style.background = `url('${customBg}') center/cover no-repeat`;
+            }
+
+            // Initialize EmailJS
+            initializeEmailJS();
+        });
+
+        // PWA Installation
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            hideInstallPrompt();
+            alert('🎉 Chatnea has been installed! You can now access it from your home screen.');
         });
 
         function setupEventListeners() {
-            // Auth tabs
+            // Auth tabs and buttons
             document.getElementById('loginTab').addEventListener('click', () => switchAuthTab('login'));
             document.getElementById('signupTab').addEventListener('click', () => switchAuthTab('signup'));
-
-            // Auth buttons
             document.getElementById('loginBtn').addEventListener('click', loginUser);
             document.getElementById('signupBtn').addEventListener('click', signupUser);
 
@@ -765,11 +1396,33 @@
             document.getElementById('locationBtn').addEventListener('click', requestLocation);
             document.getElementById('voiceCallBtn').addEventListener('click', startVoiceCall);
             document.getElementById('videoCallBtn').addEventListener('click', startVideoCall);
+            document.getElementById('manualBtn').addEventListener('click', showManualInput);
+            document.getElementById('connectManuallyBtn').addEventListener('click', connectManually);
 
             // Call control buttons
             document.getElementById('muteBtn').addEventListener('click', toggleMute);
             document.getElementById('cameraBtn').addEventListener('click', toggleCamera);
             document.getElementById('hangupBtn').addEventListener('click', endCall);
+
+            // Theme and sound controls
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+            document.getElementById('themeBtn').addEventListener('click', openThemeUpload);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+
+            // Download buttons
+            document.getElementById('hideDownloadBtn').addEventListener('click', hideDownloadSection);
+            document.getElementById('pwaBtn').addEventListener('click', installPWA);
+            document.getElementById('androidBtn').addEventListener('click', downloadAndroid);
+            document.getElementById('iosBtn').addEventListener('click', downloadIOS);
+            document.getElementById('desktopBtn').addEventListener('click', downloadDesktop);
+            document.getElementById('installNowBtn').addEventListener('click', installPWA);
+            document.getElementById('maybeLaterBtn').addEventListener('click', dismissInstallPrompt);
+
+            // Upload modal
+            document.getElementById('uploadArea').addEventListener('click', () => document.getElementById('fileInput').click());
+            document.getElementById('cancelUploadBtn').addEventListener('click', closeUploadModal);
+            document.getElementById('resetBgBtn').addEventListener('click', resetBackground);
+            document.getElementById('fileInput').addEventListener('change', handleFileSelect);
 
             // Message input
             document.getElementById('messageInput').addEventListener('keypress', function(e) {
@@ -778,8 +1431,124 @@
                     sendMessage();
                 }
             });
-
             document.getElementById('sendButton').addEventListener('click', sendMessage);
+
+            // Group controls
+            document.getElementById('createGroupBtn').addEventListener('click', createGroupChat);
+            document.getElementById('groupVoiceBtn').addEventListener('click', () => startGroupCall('voice'));
+            document.getElementById('groupVideoBtn').addEventListener('click', () => startGroupCall('video'));
+
+            // File upload drag and drop
+            setupFileUpload();
+        }
+
+        function setupFileUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleImageUpload(files[0]);
+                }
+            });
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleImageUpload(file);
+            }
+        }
+
+        function handleImageUpload(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file (JPG, PNG, GIF)');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                document.body.style.background = `url('${imageUrl}') center/cover no-repeat`;
+                localStorage.setItem('chatneaCustomBackground', imageUrl);
+                closeUploadModal();
+                playSound('notification');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Sound effects
+        const sounds = {
+            notification: createSound(800, 0.1, 'sine'),
+            message: createSound(600, 0.1, 'triangle'),
+            call: createSound(440, 0.2, 'square'),
+            connect: createSound(1000, 0.15, 'sine'),
+            disconnect: createSound(300, 0.2, 'sawtooth')
+        };
+
+        function createSound(frequency, duration, type = 'sine') {
+            return function() {
+                if (!soundEnabled) return;
+                
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = type;
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + duration);
+                } catch (error) {
+                    console.log('Audio not supported');
+                }
+            };
+        }
+
+        function playSound(soundName) {
+            if (sounds[soundName]) {
+                sounds[soundName]();
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggle');
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !soundEnabled);
+            
+            if (soundEnabled) {
+                playSound('notification');
+            }
+        }
+
+        function generateUserId() {
+            return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function hideDownloadSection() {
+            document.getElementById('downloadSection').style.display = 'none';
+            localStorage.setItem('chatneaDownloadHidden', 'true');
         }
 
         function switchAuthTab(tab) {
@@ -793,6 +1562,8 @@
                 document.getElementById('signupTab').classList.add('active');
                 document.getElementById('signupForm').classList.add('active');
             }
+            
+            playSound('notification');
         }
 
         function loginUser() {
@@ -813,7 +1584,7 @@
             completeAuth(userData);
         }
 
-        function signupUser() {
+        async function signupUser() {
             const name = document.getElementById('signupName').value.trim();
             const email = document.getElementById('signupEmail').value.trim();
             const password = document.getElementById('signupPassword').value.trim();
@@ -834,16 +1605,33 @@
                 return;
             }
             
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address!');
+                return;
+            }
+            
+            showLoadingScreen('Creating your account...');
+            
+            try {
+                await sendWelcomeEmail(name, email);
+                hideLoadingScreen();
+                alert('🎉 Welcome to Chatnea! Check your email for a welcome message.');
+            } catch (error) {
+                hideLoadingScreen();
+                console.error('Signup error:', error);
+                alert('Account created successfully! Welcome to Chatnea!');
+            }
+            
             const userData = {
                 name: name,
                 email: email,
                 loginMethod: 'email'
             };
-            
             completeAuth(userData);
         }
 
-        function completeAuth(userData) {
+        async function completeAuth(userData) {
             currentUser = {
                 id: generateUserId(),
                 name: userData.name,
@@ -857,19 +1645,52 @@
             
             localStorage.setItem('chatneaUser', JSON.stringify(currentUser));
             
+            document.getElementById('profileInfo').innerHTML = `
+                <strong>${currentUser.name}</strong><br>
+                <small>${currentUser.email}</small>
+            `;
+            document.getElementById('userProfile').style.display = 'block';
+            
             document.getElementById('authSection').style.display = 'none';
+            document.getElementById('localMapSection').style.display = 'block';
             document.getElementById('locationSetup').style.display = 'block';
             document.getElementById('chatArea').style.display = 'flex';
             
             initializePeer();
-            alert(`Welcome to Chatnea, ${currentUser.name}! 🎉`);
+            initializeLocalMap();
+            requestNotificationPermission();
+            playSound('connect');
         }
 
-        function generateUserId() {
-            return 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        async function logout() {
+            if (currentUser && userLocation) {
+                const locationKey = `nearby_users_${userLocation.replace(/\s+/g, '_').toLowerCase()}`;
+                let nearbyData = await loadFromStorage(locationKey) || { users: [] };
+                nearbyData.users = nearbyData.users.filter(user => user.id !== currentUser.id);
+                await saveToStorage(locationKey, nearbyData);
+            }
+            
+            localStorage.removeItem('chatneaUser');
+            currentUser = null;
+            userLocation = null;
+            
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('localMapSection').style.display = 'none';
+            document.getElementById('locationSetup').style.display = 'none';
+            document.getElementById('chatArea').style.display = 'none';
+            
+            if (peer) {
+                peer.destroy();
+                peer = null;
+            }
+            
+            playSound('disconnect');
         }
 
         function initializePeer() {
+            if (peer) return;
+            
             peer = new Peer({
                 host: '0.peerjs.com',
                 port: 443,
@@ -888,8 +1709,25 @@
 
             peer.on('error', function(err) {
                 console.error('PeerJS error:', err);
-                currentUser.peerId = 'local_' + Date.now();
+                currentUser.peerId = 'demo_' + Date.now();
             });
+        }
+
+        function initializeLocalMap() {
+            if (localMap) return;
+            
+            try {
+                localMap = L.map('mapContainer').setView([40.7128, -74.0060], 16);
+                
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap contributors'
+                }).addTo(localMap);
+                
+                setInterval(updateLocalStats, 5000);
+            } catch (error) {
+                console.error('Map initialization failed:', error);
+                document.getElementById('mapContainer').innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">🗺️ Map loading...</div>';
+            }
         }
 
         async function requestLocation() {
@@ -920,28 +1758,54 @@
                 statusEl.className = 'status connected';
                 locationBtn.textContent = '✅ Location Set';
                 
+                updateMapForLocation(lat, lng, userLocation);
                 await loadNearbyUsers();
+                playSound('connect');
                 
             } catch (error) {
                 console.error('Location error:', error);
-                userLocation = 'Demo Location';
-                statusEl.textContent = `📍 Connected in ${userLocation}`;
-                statusEl.className = 'status connected';
-                locationBtn.textContent = '✅ Location Set';
-                await loadNearbyUsers();
+                statusEl.textContent = '❌ Location access denied. Please enter manually below.';
+                statusEl.className = 'status error';
+                locationBtn.disabled = false;
+                locationBtn.textContent = '📍 Try Again';
+                showManualInput();
             }
         }
 
+        function showManualInput() {
+            document.getElementById('manualLocation').style.display = 'flex';
+        }
+
+        async function connectManually() {
+            const locationInput = document.getElementById('locationInput');
+            const location = locationInput.value.trim();
+            
+            if (!location) {
+                alert('Please enter a location!');
+                return;
+            }
+            
+            userLocation = location;
+            const coords = getApproximateCoords(location);
+            
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.style.display = 'block';
+            statusEl.textContent = `📍 Connected in ${userLocation}`;
+            statusEl.className = 'status connected';
+            
+            updateMapForLocation(coords.lat, coords.lng, userLocation);
+            await loadNearbyUsers();
+            playSound('connect');
+        }
+
         async function loadNearbyUsers() {
-            // Generate some demo users
-            nearbyUsers = [
-                { id: 'user1', name: 'Alice', avatar: 'A', peerId: 'demo1' },
-                { id: 'user2', name: 'Bob', avatar: 'B', peerId: 'demo2' },
-                { id: 'user3', name: 'Charlie', avatar: 'C', peerId: 'demo3' },
-                { id: 'user4', name: 'Diana', avatar: 'D', peerId: 'demo4' }
-            ];
+            if (!userLocation || !currentUser) return;
+            
+            await updateNearbyUsersInStorage(userLocation);
+            nearbyUsers = await loadNearbyUsersFromStorage(userLocation);
             
             displayNearbyUsers();
+            updateLocalStats();
         }
 
         function displayNearbyUsers() {
@@ -988,6 +1852,8 @@
             document.getElementById('messageInput').disabled = false;
             document.getElementById('sendButton').disabled = false;
             document.getElementById('messageInput').placeholder = `Message ${user.name}...`;
+            
+            playSound('notification');
         }
 
         async function sendMessage() {
@@ -996,30 +1862,33 @@
             
             if (!messageText || !activeChat) return;
             
+            const filteredMessage = filterBadWords(messageText);
+            
             const message = {
                 id: Date.now(),
                 senderId: currentUser.id,
                 senderName: currentUser.name,
                 recipientId: activeChat.id,
-                content: messageText,
-                timestamp: new Date().toISOString()
+                content: filteredMessage,
+                timestamp: new Date().toISOString(),
+                read: false
             };
             
-            // Save message locally
-            const chatKey = `chatnea_messages_${currentUser.id}_${activeChat.id}`;
-            const messages = JSON.parse(localStorage.getItem(chatKey) || '[]');
-            messages.push(message);
-            localStorage.setItem(chatKey, JSON.stringify(messages));
+            const senderKey = `chatnea_messages_${currentUser.id}_${activeChat.id}`;
+            const senderMessages = await loadFromStorage(senderKey) || [];
+            senderMessages.push(message);
+            await saveToStorage(senderKey, senderMessages);
             
             messageInput.value = '';
             await loadMessages(activeChat.id);
+            playSound('message');
         }
 
         async function loadMessages(userId) {
             if (!userId) return;
             
             const chatKey = `chatnea_messages_${currentUser.id}_${userId}`;
-            const userMessages = JSON.parse(localStorage.getItem(chatKey) || '[]');
+            const userMessages = await loadFromStorage(chatKey) || [];
             
             const messagesEl = document.getElementById('messages');
             messagesEl.innerHTML = '';
@@ -1051,9 +1920,170 @@
             messagesEl.scrollTop = messagesEl.scrollHeight;
         }
 
+        // Storage functions
+        async function saveToStorage(key, data) {
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+                return true;
+            } catch (error) {
+                console.error('Error saving to storage:', error);
+                return false;
+            }
+        }
+
+        async function loadFromStorage(key) {
+            try {
+                const localData = localStorage.getItem(key);
+                return localData ? JSON.parse(localData) : null;
+            } catch (error) {
+                console.error('Error loading from storage:', error);
+                return null;
+            }
+        }
+
+        async function loadNearbyUsersFromStorage(location) {
+            try {
+                const locationKey = `nearby_users_${location.replace(/\s+/g, '_').toLowerCase()}`;
+                const nearbyData = await loadFromStorage(locationKey);
+                
+                if (nearbyData && nearbyData.users) {
+                    return nearbyData.users.filter(user => 
+                        user.id !== currentUser.id && 
+                        new Date(user.lastSeen) > new Date(Date.now() - 30 * 60 * 1000)
+                    );
+                }
+                
+                // Generate demo users if none exist
+                return [
+                    { id: 'demo1', name: 'Alice', avatar: 'A', peerId: 'demo1', lastSeen: new Date().toISOString() },
+                    { id: 'demo2', name: 'Bob', avatar: 'B', peerId: 'demo2', lastSeen: new Date().toISOString() },
+                    { id: 'demo3', name: 'Charlie', avatar: 'C', peerId: 'demo3', lastSeen: new Date().toISOString() },
+                    { id: 'demo4', name: 'Diana', avatar: 'D', peerId: 'demo4', lastSeen: new Date().toISOString() }
+                ];
+            } catch (error) {
+                console.error('Error loading nearby users:', error);
+                return [];
+            }
+        }
+
+        async function updateNearbyUsersInStorage(location) {
+            if (!currentUser || !location) return;
+            
+            const locationKey = `nearby_users_${location.replace(/\s+/g, '_').toLowerCase()}`;
+            let nearbyData = await loadFromStorage(locationKey) || { users: [] };
+            
+            const userIndex = nearbyData.users.findIndex(u => u.id === currentUser.id);
+            const userData = {
+                id: currentUser.id,
+                name: currentUser.name,
+                avatar: currentUser.avatar,
+                location: location,
+                lastSeen: new Date().toISOString(),
+                isOnline: true,
+                peerId: currentUser.peerId,
+                inCall: currentCall !== null
+            };
+            
+            if (userIndex >= 0) {
+                nearbyData.users[userIndex] = userData;
+            } else {
+                nearbyData.users.push(userData);
+            }
+            
+            nearbyData.users = nearbyData.users.filter(user => 
+                new Date(user.lastSeen) > new Date(Date.now() - 10 * 60 * 1000)
+            );
+            
+            await saveToStorage(locationKey, nearbyData);
+        }
+
+        function updateMapForLocation(lat, lng, locationName) {
+            if (!localMap) return;
+            
+            try {
+                localMap.eachLayer(function (layer) {
+                    if (layer instanceof L.CircleMarker) {
+                        localMap.removeLayer(layer);
+                    }
+                });
+                
+                localMap.setView([lat, lng], 16);
+                
+                const userMarker = L.circleMarker([lat, lng], {
+                    radius: 12,
+                    fillColor: '#4CAF50',
+                    color: '#fff',
+                    weight: 3,
+                    opacity: 1,
+                    fillOpacity: 0.9
+                }).addTo(localMap);
+                
+                userMarker.bindPopup(`📍 You are here in ${locationName}`);
+                
+                nearbyUsers.forEach(user => {
+                    if (user.id !== currentUser.id) {
+                        const randomLat = lat + (Math.random() - 0.5) * 0.01;
+                        const randomLng = lng + (Math.random() - 0.5) * 0.01;
+                        
+                        const marker = L.circleMarker([randomLat, randomLng], {
+                            radius: 8,
+                            fillColor: '#667eea',
+                            color: '#fff',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).addTo(localMap);
+                        
+                        marker.bindPopup(`${user.name} is using Chatnea nearby`);
+                    }
+                });
+            } catch (error) {
+                console.error('Map update failed:', error);
+            }
+        }
+
+        function getApproximateCoords(location) {
+            const locationCoords = {
+                'new york': { lat: 40.7128, lng: -74.0060 },
+                'london': { lat: 51.5074, lng: -0.1278 },
+                'paris': { lat: 48.8566, lng: 2.3522 },
+                'tokyo': { lat: 35.6762, lng: 139.6503 },
+                'sydney': { lat: -33.8688, lng: 151.2093 },
+                'berlin': { lat: 52.5200, lng: 13.4050 },
+                'moscow': { lat: 55.7558, lng: 37.6176 },
+                'beijing': { lat: 39.9042, lng: 116.4074 },
+                'mumbai': { lat: 19.0760, lng: 72.8777 },
+                'san francisco': { lat: 37.7749, lng: -122.4194 }
+            };
+            
+            const key = location.toLowerCase();
+            return locationCoords[key] || { lat: 40.7128, lng: -74.0060 };
+        }
+
+        function updateLocalStats() {
+            const realUserCount = nearbyUsers.length + (currentUser ? 1 : 0);
+            const activeCalls = nearbyUsers.filter(user => user.inCall).length;
+            
+            document.getElementById('chatneaUsers').textContent = realUserCount;
+            document.getElementById('activeCalls').textContent = activeCalls;
+        }
+
+        // Bad words filter
+        const badWords = ['fuck', 'shit', 'bitch', 'asshole', 'bastard', 'cunt', 'whore', 'slut'];
+
+        function filterBadWords(text) {
+            let filtered = text;
+            badWords.forEach(word => {
+                const regex = new RegExp('\\b' + word + '\\b', 'gi');
+                filtered = filtered.replace(regex, '*'.repeat(word.length));
+            });
+            return filtered;
+        }
+
         async function startVoiceCall() {
             currentCallType = 'voice';
             showLoadingScreen('Getting microphone access...');
+            playSound('call');
             
             try {
                 localStream = await navigator.mediaDevices.getUserMedia({ 
@@ -1063,16 +2093,14 @@
                         autoGainControl: true
                     }
                 });
-                
                 hideLoadingScreen();
                 showCallInterface(false);
-                document.getElementById('callStatus').textContent = 'Voice call ready - Click on a user to call';
+                document.getElementById('callStatus').textContent = 'Ready for voice calls';
                 document.getElementById('connectionStatus').innerHTML = `
                     <div class="audio-avatar">${currentUser.avatar}</div>
-                    <h2>🎤 Voice Call Ready</h2>
-                    <p>Click on any user nearby to start calling</p>
+                    <h2>Voice Call Ready</h2>
+                    <p>Click on a user to start calling</p>
                 `;
-                
             } catch (err) {
                 hideLoadingScreen();
                 console.error('Microphone access denied:', err);
@@ -1083,6 +2111,7 @@
         async function startVideoCall() {
             currentCallType = 'video';
             showLoadingScreen('Getting camera and microphone access...');
+            playSound('call');
             
             try {
                 localStream = await navigator.mediaDevices.getUserMedia({ 
@@ -1097,16 +2126,14 @@
                         autoGainControl: true
                     }
                 });
-                
                 hideLoadingScreen();
                 showCallInterface(true);
                 document.getElementById('localVideo').srcObject = localStream;
-                document.getElementById('callStatus').textContent = 'Video call ready - Click on a user to call';
+                document.getElementById('callStatus').textContent = 'Ready for video calls';
                 document.getElementById('connectionStatus').innerHTML = `
-                    <h2>📹 Video Call Ready</h2>
-                    <p>Click on any user nearby to start calling</p>
+                    <h2>Video Call Ready</h2>
+                    <p>Click on a user to start calling</p>
                 `;
-                
             } catch (err) {
                 hideLoadingScreen();
                 console.error('Camera/microphone access denied:', err);
@@ -1144,19 +2171,19 @@
                 return;
             }
 
-            // Demo call simulation
+            playSound('call');
             document.getElementById('callStatus').textContent = `Calling ${user.name}...`;
             document.getElementById('connectionStatus').textContent = 'Connecting...';
             
+            // Demo call simulation
             setTimeout(() => {
                 if (Math.random() > 0.3) {
-                    // Simulate successful connection
                     document.getElementById('callStatus').textContent = `Connected with ${user.name}`;
                     document.getElementById('connectionStatus').style.display = 'none';
                     startCallTimer();
+                    playSound('connect');
                     alert(`📞 Demo: Connected with ${user.name}! This is a demo call.`);
                 } else {
-                    // Simulate failed connection
                     alert(`Could not connect to ${user.name}. They might be busy.`);
                     document.getElementById('connectionStatus').textContent = 'Call failed';
                 }
@@ -1164,20 +2191,53 @@
         }
 
         function handleIncomingCall(call) {
-            const accept = confirm('📞 Someone is calling you. Accept the call?');
+            const callerName = 'Someone nearby';
+            playSound('call');
             
-            if (accept) {
-                currentCall = call;
-                call.answer(localStream);
-                
-                call.on('stream', function(remoteStream) {
-                    document.getElementById('remoteVideo').srcObject = remoteStream;
-                    document.getElementById('callStatus').textContent = 'Connected';
-                    startCallTimer();
-                });
+            if (confirm(`${callerName} is calling you. Accept?`)) {
+                if (!localStream) {
+                    navigator.mediaDevices.getUserMedia({ 
+                        video: currentCallType === 'video', 
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true
+                        }
+                    }).then(stream => {
+                        localStream = stream;
+                        answerCall(call);
+                    }).catch(err => {
+                        console.error('Failed to get media:', err);
+                        call.close();
+                    });
+                } else {
+                    answerCall(call);
+                }
             } else {
                 call.close();
             }
+        }
+
+        function answerCall(call) {
+            currentCall = call;
+            call.answer(localStream);
+            
+            showCallInterface(currentCallType === 'video');
+            if (currentCallType === 'video') {
+                document.getElementById('localVideo').srcObject = localStream;
+            }
+            
+            call.on('stream', function(remoteStream) {
+                document.getElementById('remoteVideo').srcObject = remoteStream;
+                document.getElementById('callStatus').textContent = 'Connected';
+                document.getElementById('connectionStatus').style.display = 'none';
+                startCallTimer();
+                playSound('connect');
+            });
+
+            call.on('close', function() {
+                endCall();
+            });
         }
 
         function startCallTimer() {
@@ -1207,6 +2267,8 @@
                 muteBtn.classList.remove('active');
                 muteBtn.textContent = '🎤';
             }
+            
+            playSound('notification');
         }
 
         function toggleCamera() {
@@ -1225,6 +2287,8 @@
                 cameraBtn.classList.remove('active');
                 cameraBtn.textContent = '📹';
             }
+            
+            playSound('notification');
         }
 
         function endCall() {
@@ -1254,8 +2318,28 @@
             document.getElementById('cameraBtn').textContent = '📹';
             isMuted = false;
             isCameraOff = false;
+            
+            playSound('disconnect');
         }
 
+        // Group functions (placeholder)
+        function createGroupChat() {
+            if (nearbyUsers.length === 0) {
+                alert('No users nearby to invite to a group chat!');
+                return;
+            }
+            alert('🚧 Group chat feature coming soon! For now, you can chat with individual users.');
+        }
+
+        function startGroupCall(type) {
+            if (nearbyUsers.length === 0) {
+                alert('No users nearby to invite to a group call!');
+                return;
+            }
+            alert(`🚧 Group ${type} call feature coming soon! For now, you can call individual users.`);
+        }
+
+        // Utility functions
         function showLoadingScreen(text) {
             document.getElementById('loadingText').textContent = text;
             document.getElementById('loadingOverlay').style.display = 'flex';
@@ -1264,6 +2348,194 @@
         function hideLoadingScreen() {
             document.getElementById('loadingOverlay').style.display = 'none';
         }
+
+        function openThemeUpload() {
+            document.getElementById('uploadModal').style.display = 'flex';
+            playSound('notification');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').style.display = 'none';
+        }
+
+        function resetBackground() {
+            document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            localStorage.removeItem('chatneaCustomBackground');
+            closeUploadModal();
+            playSound('notification');
+        }
+
+        // PWA Functions
+        function showInstallPrompt() {
+            document.getElementById('installPrompt').style.display = 'block';
+        }
+
+        function hideInstallPrompt() {
+            document.getElementById('installPrompt').style.display = 'none';
+        }
+
+        function dismissInstallPrompt() {
+            hideInstallPrompt();
+            localStorage.setItem('installPromptDismissed', 'true');
+        }
+
+        async function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                hideInstallPrompt();
+            } else {
+                showManualInstallInstructions();
+            }
+        }
+
+        function showManualInstallInstructions() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isAndroid = /Android/.test(navigator.userAgent);
+            
+            let instructions = '';
+            
+            if (isIOS) {
+                instructions = `
+                    📱 To install Chatnea on iOS:
+                    1. Tap the Share button (square with arrow)
+                    2. Scroll down and tap "Add to Home Screen"
+                    3. Tap "Add" to confirm
+                `;
+            } else if (isAndroid) {
+                instructions = `
+                    📱 To install Chatnea on Android:
+                    1. Tap the menu (⋮) in your browser
+                    2. Select "Add to Home screen" or "Install app"
+                    3. Tap "Add" to confirm
+                `;
+            } else {
+                instructions = `
+                    💻 To install Chatnea on Desktop:
+                    1. Look for the install icon (⊕) in your address bar
+                    2. Click it and select "Install"
+                    3. Or use browser menu > "Install Chatnea"
+                `;
+            }
+            
+            alert(instructions);
+        }
+
+        function downloadAndroid() {
+            alert('🤖 Android APK: Bookmark this page and access it from your Android device to install!');
+        }
+
+        function downloadIOS() {
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                installPWA();
+            } else {
+                alert('🍎 iOS Installation: Open this page on your iPhone/iPad and follow the installation instructions!');
+            }
+        }
+
+        function downloadDesktop() {
+            if (deferredPrompt) {
+                installPWA();
+            } else {
+                const desktopInstructions = `
+                    💻 Desktop App Installation:
+                    
+                    Chrome/Edge:
+                    • Look for the install icon (⊕) in the address bar
+                    • Or go to Settings > Install Chatnea
+                    
+                    Firefox:
+                    • Bookmark this page for quick access
+                    • Or use "Add to Home Screen" from menu
+                    
+                    Safari:
+                    • Add to Dock from File menu
+                    • Or bookmark for easy access
+                `;
+                alert(desktopInstructions);
+            }
+        }
+
+        // EmailJS initialization
+        function initializeEmailJS() {
+            try {
+                emailjs.init("YOUR_PUBLIC_KEY"); // Replace with actual key
+            } catch (error) {
+                console.log('EmailJS not available');
+            }
+        }
+
+        async function sendWelcomeEmail(name, email) {
+            try {
+                const templateParams = {
+                    to_name: name,
+                    to_email: email,
+                    from_name: 'Chatnea Team',
+                    message: `Welcome to Chatnea! We're excited to have you join our community of local connections.`
+                };
+                
+                await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
+                return true;
+            } catch (error) {
+                console.error('Email send failed:', error);
+                throw error;
+            }
+        }
+
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        console.log('Notification permission granted');
+                    }
+                });
+            }
+        }
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'chatnea-v1';
+                    const urlsToCache = [
+                        '/',
+                        '/offline.html'
+                    ];
+
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => {
+                                    if (response) {
+                                        return response;
+                                    }
+                                    return fetch(event.request);
+                                })
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b61e9450494799',t:'MTc1OTkzMTU1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b630a5d5c06c4c',t:'MTc1OTkzMjI5NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
